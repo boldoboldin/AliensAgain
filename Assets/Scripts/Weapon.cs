@@ -5,31 +5,35 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     private Animator anim;
+    private AudioSource sfx;
     
     [SerializeField] private float bulletRange = 100f;
     public int magazineCapacity = 0; // Capacidade de balas no pente
     public int bulletsInMagazine; // Número de balas no pente
     public int bulletsLeft = 36; // Total de balas
 
-
     [SerializeField] private float fireRate = 0.7f;
     [SerializeField] private float fireTimer;
 
     public Transform shootPoint;
     public ParticleSystem fireFX;
+    public GameObject hitFX;
+    public GameObject bulletImpact;
+    [SerializeField] private AudioClip pistolShotSFX;
 
     private bool isReloading;
 
     // Start is called before the first frame update
     void Start()
     {
-        anim = GetComponent<Animator>();    
+        anim = GetComponent<Animator>();
+        sfx = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButtonDown("Fire1"))
         {
             Fire();
         }
@@ -69,9 +73,18 @@ public class Weapon : MonoBehaviour
         // Simula a tragetória do disparo
         RaycastHit hit;
         if (Physics.Raycast(shootPoint.position, shootPoint.transform.forward, out hit, bulletRange))
+        {
+            GameObject hitParticle = Instantiate(hitFX, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal)); // Gera o efeito de faisca no local que a bala acertou
+            GameObject bullet = Instantiate(bulletImpact, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal)); // Gera uma marca de bala no local que a bala acertou
+
+            Destroy(hitParticle, 1f);
+            Destroy(bullet, 4f);
+
+        }
 
         anim.CrossFadeInFixedTime("Fire", 0.01f); //"Chama" a animação diretamente via script e determina a sua duração
         fireFX.Play();
+        sfx.PlayOneShot(pistolShotSFX);
         bulletsInMagazine--;
         fireTimer = 0f;
     }
