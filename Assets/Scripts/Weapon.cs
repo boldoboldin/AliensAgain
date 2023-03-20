@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    [SerializeField] private CamCtrl camCtrl;
+    
+    [Header("Properties")]
     private Animator anim;
     private AudioSource sfx;
-    
+
+    [Header("Weapon")]
     [SerializeField] private float bulletRange = 100f;
     public int magazineCapacity = 0; // Capacidade de balas no pente
     public int bulletsInMagazine; // Número de balas no pente
@@ -14,14 +18,20 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] private float fireRate = 0.7f;
     [SerializeField] private float fireTimer;
+    private bool isReloading;
 
+    [Header("Aim")]
+    [SerializeField] private GameObject aimLight;
+    [SerializeField] private List<GameObject> aimBulletsList;
+    private bool isAiming;
+
+    [Header("Shot FX")]
     public Transform shootPoint;
     public ParticleSystem fireFX;
     public GameObject hitFX;
     public GameObject bulletImpact;
     [SerializeField] private AudioClip pistolShotSFX;
-
-    private bool isReloading;
+    private int damage = 15;
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +65,8 @@ public class Weapon : MonoBehaviour
         {
             fireTimer += Time.deltaTime;
         }
+
+        ToAim();
     }
 
     private void FixedUpdate()
@@ -76,17 +88,120 @@ public class Weapon : MonoBehaviour
         {
             GameObject hitParticle = Instantiate(hitFX, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal)); // Gera o efeito de faisca no local que a bala acertou
             GameObject bullet = Instantiate(bulletImpact, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal)); // Gera uma marca de bala no local que a bala acertou
+            bullet.transform.SetParent(hit.transform); // Gera a marca da bala dentro do objeto que ela atingir
 
             Destroy(hitParticle, 1f);
             Destroy(bullet, 4f);
 
+            if (hit.transform.GetComponent<EnemyHP>())
+            {
+                hit.transform.GetComponent<EnemyHP>().ApplyDamage(damage);
+            }
         }
 
-        anim.CrossFadeInFixedTime("Fire", 0.01f); //"Chama" a animação diretamente via script e determina a sua duração
+        if (isAiming)
+        {
+            anim.CrossFadeInFixedTime("AimingFire", 0.01f); //"Chama" a animação diretamente via script e determina a sua duração
+        }
+        else
+        {
+            anim.CrossFadeInFixedTime("Fire", 0.01f);
+        }
+
         fireFX.Play();
         sfx.PlayOneShot(pistolShotSFX);
         bulletsInMagazine--;
         fireTimer = 0f;
+    }
+
+    public void ToAim()
+    {
+        if (Input.GetButton("Fire2") && isReloading == false)
+        {
+            anim.SetBool("Aiming", true);
+            isAiming = true;
+            aimLight.SetActive(true);
+            camCtrl.ZoomIn(60f, 30f);
+        }
+        else
+        {
+            anim.SetBool("Aiming", false);
+            isAiming = false;
+            aimLight.SetActive(false);
+            camCtrl.ZoomOut(30f, 60f);
+        }
+
+        if (bulletsInMagazine > 11)
+        {
+            aimBulletsList[11].SetActive(true);
+        }
+        else { aimBulletsList[11].SetActive(false); }
+
+        if (bulletsInMagazine > 10)
+        {
+            aimBulletsList[10].SetActive(true);
+        }
+        else { aimBulletsList[10].SetActive(false); }
+
+        if (bulletsInMagazine > 9)
+        {
+            aimBulletsList[9].SetActive(true);
+        }
+        else { aimBulletsList[9].SetActive(false); }
+
+        if (bulletsInMagazine > 8)
+        {
+            aimBulletsList[8].SetActive(true);
+        }
+        else { aimBulletsList[8].SetActive(false); }
+
+        if (bulletsInMagazine > 7)
+        {
+            aimBulletsList[7].SetActive(true);
+        }
+        else { aimBulletsList[7].SetActive(false); }
+
+        if (bulletsInMagazine > 6)
+        {
+            aimBulletsList[6].SetActive(true);
+        }
+        else { aimBulletsList[6].SetActive(false); }
+
+        if (bulletsInMagazine > 5)
+        {
+            aimBulletsList[5].SetActive(true);
+        }
+        else { aimBulletsList[5].SetActive(false); }
+
+        if (bulletsInMagazine > 4)
+        {
+            aimBulletsList[4].SetActive(true);
+        }
+        else { aimBulletsList[4].SetActive(false); }
+
+        if (bulletsInMagazine > 3)
+        {
+            aimBulletsList[3].SetActive(true);
+        }
+        else { aimBulletsList[3].SetActive(false); }
+
+        if (bulletsInMagazine > 2)
+        {
+            aimBulletsList[2].SetActive(true);
+        }
+        else { aimBulletsList[2].SetActive(false); }
+
+        if (bulletsInMagazine > 1)
+        {
+            aimBulletsList[1].SetActive(true);
+        }
+        else { aimBulletsList[1].SetActive(false); }
+
+        if (bulletsInMagazine > 0)
+        {
+            aimBulletsList[0].SetActive(true);
+        }
+        else { aimBulletsList[0].SetActive(false); }
     }
 
     private void DoReload()
