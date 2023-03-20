@@ -15,6 +15,9 @@ public class Weapon : MonoBehaviour
     public int magazineCapacity = 0; // Capacidade de balas no pente
     public int bulletsInMagazine; // Número de balas no pente
     public int bulletsLeft = 36; // Total de balas
+    public float noAimingSpread;
+    public float aimingSpread;
+    private float currentSpread;
 
     [SerializeField] private float fireRate = 0.7f;
     [SerializeField] private float fireTimer;
@@ -31,7 +34,7 @@ public class Weapon : MonoBehaviour
     public GameObject hitFX;
     public GameObject bulletImpact;
     [SerializeField] private AudioClip pistolShotSFX;
-    private int damage = 15;
+    [SerializeField] private int damage;
 
     // Start is called before the first frame update
     void Start()
@@ -84,7 +87,12 @@ public class Weapon : MonoBehaviour
 
         // Simula a tragetória do disparo
         RaycastHit hit;
-        if (Physics.Raycast(shootPoint.position, shootPoint.transform.forward, out hit, bulletRange))
+
+        Vector3 shootDirection = shootPoint.transform.forward;
+        shootDirection = shootDirection + shootPoint.TransformDirection(new Vector3(Random.Range(-currentSpread, currentSpread),
+            Random.Range(-currentSpread, currentSpread)));
+
+        if (Physics.Raycast(shootPoint.position, shootDirection, out hit, bulletRange))
         {
             GameObject hitParticle = Instantiate(hitFX, hit.point, Quaternion.FromToRotation(Vector3.up, hit.normal)); // Gera o efeito de faisca no local que a bala acertou
             GameObject bullet = Instantiate(bulletImpact, hit.point, Quaternion.FromToRotation(Vector3.forward, hit.normal)); // Gera uma marca de bala no local que a bala acertou
@@ -93,9 +101,9 @@ public class Weapon : MonoBehaviour
             Destroy(hitParticle, 1f);
             Destroy(bullet, 4f);
 
-            if (hit.transform.GetComponent<EnemyHP>())
+            if (hit.transform.GetComponent<Enemy>())
             {
-                hit.transform.GetComponent<EnemyHP>().ApplyDamage(damage);
+                hit.transform.GetComponent<Enemy>().ApplyDamage(damage);
             }
         }
 
@@ -122,6 +130,7 @@ public class Weapon : MonoBehaviour
             isAiming = true;
             aimLight.SetActive(true);
             camCtrl.ZoomIn(60f, 30f);
+            currentSpread = aimingSpread;
         }
         else
         {
@@ -129,6 +138,7 @@ public class Weapon : MonoBehaviour
             isAiming = false;
             aimLight.SetActive(false);
             camCtrl.ZoomOut(30f, 60f);
+            currentSpread = noAimingSpread;
         }
 
         if (bulletsInMagazine > 11)
