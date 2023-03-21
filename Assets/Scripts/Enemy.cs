@@ -12,10 +12,11 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private float atkDist; // Distancia para atk
     [SerializeField] private float followDist; // Distancia para perceguir
-    public float currentFollowDist = 15; 
+    public float currentFollowDist;
 
+    [SerializeField] private PlayerHP playerHP;
     [SerializeField] private int damage;
-    [SerializeField] private int hp = 100;
+    [SerializeField] private int hp;
 
     // Start is called before the first frame update
     void Start()
@@ -31,21 +32,22 @@ public class Enemy : MonoBehaviour
         if (navMesh.enabled) // Se navMesh estive ativo
         {
             float dist = Vector3.Distance(player.transform.position, transform.position);
-            bool atak = false;
+            bool atk = false;
             bool follow = (dist < currentFollowDist);
 
             if (follow)
             {
                 if(dist < atkDist)
                 {
-                    atak = true;
-                    transform.LookAt(player.transform);
+                    atk = true;
+                    //transform.LookAt(player.transform);
+                    playerHP.ApplyDamage(20);
                 }
 
                 navMesh.SetDestination(player.transform.position); // Faz trajetória evitando obstaculos
             }
 
-            if (follow == false || atak == true)
+            if (follow == false || atk == true)
             {
                 navMesh.SetDestination(transform.position);
             }
