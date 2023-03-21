@@ -6,11 +6,13 @@ TagManager:
   tags:
   - Weapon
   - FPSCam
+  - PlayerCtrl
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - MiniMap
   - Water
   - UI
   - 

@@ -7,11 +7,13 @@ public class Enemy : MonoBehaviour
 {
     private Animator anim;
     private NavMeshAgent navMesh;
+    private Rigidbody rb;
 
-    private GameObject player;
+    [SerializeField] private GameObject player;
 
     [SerializeField] private float atkDist; // Distancia para atk
     [SerializeField] private float followDist; // Distancia para perceguir
+    [SerializeField] private GameObject atkArea;
     public float currentFollowDist;
 
     [SerializeField] private PlayerHP playerHP;
@@ -22,7 +24,9 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
         navMesh = GetComponent<NavMeshAgent>();
+
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -35,31 +39,41 @@ public class Enemy : MonoBehaviour
             bool atk = false;
             bool follow = (dist < currentFollowDist);
 
-            if (follow)
+            if (follow && atk == false)
             {
-                if(dist < atkDist)
-                {
-                    atk = true;
-                    //transform.LookAt(player.transform);
-                    playerHP.ApplyDamage(20);
-                }
-
                 navMesh.SetDestination(player.transform.position); // Faz trajetória evitando obstaculos
+                //transform.LookAt(player.transform);
             }
 
-            if (follow == false || atk == true)
+            if (dist < atkDist)
+            {
+                atk = true;
+            }
+
+            if (follow == false || atk)
             {
                 navMesh.SetDestination(transform.position);
-            }
+            }   
 
-            //anim.SetBool("Atak", atak);
-            //anim.SetBool("Walk", follow);
-        }
+            anim.SetBool("Atk", atk); // Relaciona o valor da variavel "atk" com a animação "Atk"
+            anim.SetBool("Walk", follow); // Relaciona o valor da variavel "follow" com a animação "Walk"
+
+            }
 
         if (currentFollowDist >= followDist)
         {
             currentFollowDist--;
         }
+    }
+
+    public void DoAtk()
+    {
+        atkArea.SetActive(true);
+    }
+
+    public void UndoAtk()
+    {
+        atkArea.SetActive(false);
     }
 
     public void ApplyDamage(int damage)
@@ -69,7 +83,20 @@ public class Enemy : MonoBehaviour
 
         if (hp <= 0)
         {
-            Destroy(gameObject);
+            navMesh.enabled = false;
+            anim.SetBool("Atk", false);
+            anim.SetBool("Walk", false);
+            anim.SetTrigger("Die");
+            GetComponent<Collider>().enabled = false;
+            Destroy(gameObject, 2.5f);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            playerHP.ApplyDamage(damage);
         }
     }
 }

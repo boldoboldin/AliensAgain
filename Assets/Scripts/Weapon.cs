@@ -103,6 +103,7 @@ public class Weapon : MonoBehaviour
 
             if (hit.transform.GetComponent<Enemy>())
             {
+                Destroy(bullet);
                 hit.transform.GetComponent<Enemy>().ApplyDamage(damage);
             }
         }
