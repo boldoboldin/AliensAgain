@@ -64,7 +64,7 @@ public class Weapon : MonoBehaviour
             }
         }
 
-        if(fireTimer < fireRate)
+        if(fireTimer < fireRate && isReloading == false)
         {
             fireTimer += Time.deltaTime;
         }
@@ -74,8 +74,8 @@ public class Weapon : MonoBehaviour
 
     private void FixedUpdate()
     {
-        AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
-        isReloading = info.IsName("Reload"); // "isReloading" recebe o valor da animação
+        //AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
+        //isReloading = info.IsName("Reload"); // "isReloading" recebe o valor da animação // Uma alternativa para controlar a animação (entender melhor depois)
     }
 
     private void Fire()
@@ -222,9 +222,7 @@ public class Weapon : MonoBehaviour
             return;
         }
 
-        Reload();
-
-        //anim.CrossFadeInFixedTime("Reload", 0.01f);
+        anim.SetTrigger("Recharge");
     }
 
     public void Reload()

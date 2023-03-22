@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
             if (follow && atk == false)
             {
                 navMesh.SetDestination(player.transform.position); // Faz trajetória evitando obstaculos
-                //transform.LookAt(player.transform);
+                transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
             }
 
             if (dist < atkDist)
@@ -79,7 +79,7 @@ public class Enemy : MonoBehaviour
     public void ApplyDamage(int damage)
     {
         hp -= damage;
-        currentFollowDist = 300;
+        currentFollowDist = 600;
 
         if (hp <= 0)
         {
