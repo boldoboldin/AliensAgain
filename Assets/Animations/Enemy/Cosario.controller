@@ -11,7 +11,7 @@ AnimatorState:
   m_Speed: 1.5
   m_CycleOffset: 0
   m_Transitions:
-  - {fileID: 3766141850304443773}
+  - {fileID: 5228257397984962226}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -249,7 +249,7 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1101 &3766141850304443773
+--- !u!1101 &5228257397984962226
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -261,7 +261,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Atk
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: -3994169257382870674}
+  m_DstState: {fileID: -9108119351722064724}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0

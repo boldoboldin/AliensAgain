@@ -42,18 +42,19 @@ public class Enemy : MonoBehaviour
             if (follow && atk == false)
             {
                 navMesh.SetDestination(player.transform.position); // Faz trajetória evitando obstaculos
-                transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
+            }
+
+            if (follow == false)
+            {
+                navMesh.SetDestination(transform.position);
             }
 
             if (dist < atkDist)
             {
                 atk = true;
+                currentFollowDist = 0;
+                transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
             }
-
-            if (follow == false || atk)
-            {
-                navMesh.SetDestination(transform.position);
-            }   
 
             anim.SetBool("Atk", atk); // Relaciona o valor da variavel "atk" com a animação "Atk"
             anim.SetBool("Walk", follow); // Relaciona o valor da variavel "follow" com a animação "Walk"
@@ -62,7 +63,7 @@ public class Enemy : MonoBehaviour
 
         if (currentFollowDist >= followDist)
         {
-            currentFollowDist--;
+            currentFollowDist = currentFollowDist - Time.deltaTime * 7;
         }
     }
 
@@ -76,10 +77,15 @@ public class Enemy : MonoBehaviour
         atkArea.SetActive(false);
     }
 
+    public void FollowAgain()
+    {
+        currentFollowDist = followDist * 5;
+    }
+
     public void ApplyDamage(int damage)
     {
         hp -= damage;
-        currentFollowDist = 600;
+        currentFollowDist = followDist * 5;
 
         if (hp <= 0)
         {

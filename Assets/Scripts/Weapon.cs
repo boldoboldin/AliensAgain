@@ -26,7 +26,7 @@ public class Weapon : MonoBehaviour
     [Header("Aim")]
     [SerializeField] private GameObject aimLight;
     [SerializeField] private List<GameObject> aimBulletsList;
-    private bool isAiming;
+    public bool isAiming;
 
     [Header("Shot FX")]
     public Transform shootPoint;
@@ -222,6 +222,7 @@ public class Weapon : MonoBehaviour
             return;
         }
 
+        isReloading = true;
         anim.SetTrigger("Recharge");
     }
 
@@ -246,5 +247,6 @@ public class Weapon : MonoBehaviour
 
         bulletsLeft -= bulletsToDeduct; // Ao carrecar a arma reduz a quantidade total de munição
         bulletsInMagazine += bulletsToDeduct; // Ao carrecar aumenta a quantidade de balas no pente
+        isReloading = false;
     }
 }

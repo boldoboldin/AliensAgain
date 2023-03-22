@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private Weapon weapon;
+
     private Rigidbody rb;
     [SerializeField] private Transform cameraPos;
 
@@ -29,13 +31,18 @@ public class Player : MonoBehaviour
 
     void Movement()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && (weapon.isAiming == false))
         {
             playerVel = 9;
         }
         else
         {
             playerVel = 5;
+        }
+
+        if (weapon.isAiming == true)
+        {
+            playerVel = 2;
         }
 
         float moveX = Input.GetAxis("Horizontal");
