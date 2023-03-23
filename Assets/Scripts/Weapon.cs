@@ -14,7 +14,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float bulletRange = 100f;
     public int magazineCapacity = 0; // Capacidade de balas no pente
     public int bulletsInMagazine; // Número de balas no pente
-    public int bulletsLeft = 36; // Total de balas
+    public int bulletsLeft; // Total de balas
     public float noAimingSpread;
     public float aimingSpread;
     private float currentSpread;
@@ -105,6 +105,11 @@ public class Weapon : MonoBehaviour
             {
                 Destroy(bullet);
                 hit.transform.GetComponent<Enemy>().ApplyDamage(damage);
+            }
+
+            if (hit.transform.GetComponent<ObjectGeren>())
+            {
+                Destroy(bullet);
             }
         }
 
@@ -248,5 +253,10 @@ public class Weapon : MonoBehaviour
         bulletsLeft -= bulletsToDeduct; // Ao carrecar a arma reduz a quantidade total de munição
         bulletsInMagazine += bulletsToDeduct; // Ao carrecar aumenta a quantidade de balas no pente
         isReloading = false;
+    }
+
+    public void CollectAmmo(int ammoAdd)
+    {
+        bulletsLeft = bulletsLeft + ammoAdd;
     }
 }

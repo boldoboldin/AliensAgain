@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerHP : MonoBehaviour
 {
+    [SerializeField] private Weapon weapon;
+    
     private GameObject hpBar;
     public float hp;
 
@@ -35,6 +37,11 @@ public class PlayerHP : MonoBehaviour
         {
             hp = hp - Time.deltaTime * 2;
         }
+
+        if (o2 > 150) // Gambiarra
+        {
+            o2 = 150;
+        }
     }
 
     public void ApplyDamage(int damage)
@@ -44,6 +51,19 @@ public class PlayerHP : MonoBehaviour
         if (hp <= 0)
         {
             // Add tela de game over
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "O2")
+        {
+            o2 = o2 + 25;
+        }
+
+        if (other.gameObject.tag == "Ammo")
+        {
+            weapon.CollectAmmo(24);
         }
     }
 }

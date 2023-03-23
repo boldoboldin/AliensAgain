@@ -8,6 +8,8 @@ TagManager:
   - FPSCam
   - PlayerCtrl
   - Enemy
+  - O2
+  - Ammo
   layers:
   - Default
   - TransparentFX
