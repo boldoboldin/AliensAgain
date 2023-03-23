@@ -9,12 +9,15 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent navMesh;
     private Rigidbody rb;
 
+    private bool awake = false;
+
     [SerializeField] private GameObject player;
 
     [SerializeField] private float atkDist; // Distancia para atk
     [SerializeField] private float followDist; // Distancia para perceguir
     [SerializeField] private GameObject atkArea;
     public float currentFollowDist;
+    private float dist;
 
     [SerializeField] private PlayerHP playerHP;
     [SerializeField] private int damage;
@@ -35,9 +38,10 @@ public class Enemy : MonoBehaviour
     {
         if (navMesh.enabled) // Se navMesh estive ativo
         {
-            float dist = Vector3.Distance(player.transform.position, transform.position);
             bool atk = false;
             bool follow = (dist < currentFollowDist);
+            dist = Vector3.Distance(player.transform.position, transform.position);
+
 
             if (follow && atk == false)
             {
@@ -56,10 +60,15 @@ public class Enemy : MonoBehaviour
                 transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
             }
 
+            if (awake)
+            {
+                FollowAgain();
+            }
+
             anim.SetBool("Atk", atk); // Relaciona o valor da variavel "atk" com a animação "Atk"
             anim.SetBool("Walk", follow); // Relaciona o valor da variavel "follow" com a animação "Walk"
 
-            }
+        }
 
         if (currentFollowDist >= followDist)
         {
@@ -80,12 +89,18 @@ public class Enemy : MonoBehaviour
     public void FollowAgain()
     {
         currentFollowDist = followDist * 5;
+        awake = false;
     }
 
     public void ApplyDamage(int damage)
     {
         hp -= damage;
-        currentFollowDist = followDist * 5;
+
+        if (dist >= atkDist * 2)
+        {
+            awake = true;
+        }
+            
 
         if (hp <= 0)
         {
