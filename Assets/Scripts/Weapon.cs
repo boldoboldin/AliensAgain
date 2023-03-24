@@ -18,6 +18,7 @@ public class Weapon : MonoBehaviour
     public float noAimingSpread;
     public float aimingSpread;
     private float currentSpread;
+    [SerializeField] private AudioClip reloadSFX;
 
     [SerializeField] private float fireRate = 0.7f;
     [SerializeField] private float fireTimer;
@@ -34,6 +35,7 @@ public class Weapon : MonoBehaviour
     public GameObject hitFX;
     public GameObject bulletImpact;
     [SerializeField] private AudioClip pistolShotSFX;
+    [SerializeField] private AudioClip ammoSFX;
     [SerializeField] private int damage;
 
     // Start is called before the first frame update
@@ -69,7 +71,10 @@ public class Weapon : MonoBehaviour
             fireTimer += Time.deltaTime;
         }
 
-        ToAim();
+        if (Time.timeScale == 1f)
+        {
+            ToAim();
+        }
     }
 
     private void FixedUpdate()
@@ -80,7 +85,7 @@ public class Weapon : MonoBehaviour
 
     private void Fire()
     {
-        if(fireTimer < fireRate || isReloading || bulletsInMagazine <=0)
+        if (fireTimer < fireRate || isReloading || bulletsInMagazine <= 0 || Time.timeScale == 0f)
         {
             return;
         }
@@ -228,6 +233,7 @@ public class Weapon : MonoBehaviour
         }
 
         isReloading = true;
+        sfx.PlayOneShot(reloadSFX);
         anim.SetTrigger("Recharge");
     }
 
@@ -258,5 +264,6 @@ public class Weapon : MonoBehaviour
     public void CollectAmmo(int ammoAdd)
     {
         bulletsLeft = bulletsLeft + ammoAdd;
+        sfx.PlayOneShot(ammoSFX);
     }
 }

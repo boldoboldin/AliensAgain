@@ -19,6 +19,10 @@ public class Enemy : MonoBehaviour
     public float currentFollowDist;
     private float dist;
 
+    private AudioSource sfx;
+    [SerializeField] private AudioClip atkSFX;
+    [SerializeField] private AudioClip followSFX;
+
     [SerializeField] private PlayerHP playerHP;
     [SerializeField] private int damage;
     [SerializeField] private int hp;
@@ -27,6 +31,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        sfx = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody>();
         navMesh = GetComponent<NavMeshAgent>();
 
@@ -63,6 +68,7 @@ public class Enemy : MonoBehaviour
             if (awake)
             {
                 FollowAgain();
+                sfx.PlayOneShot(followSFX);
             }
 
             anim.SetBool("Atk", atk); // Relaciona o valor da variavel "atk" com a animação "Atk"
@@ -79,6 +85,7 @@ public class Enemy : MonoBehaviour
     public void DoAtk()
     {
         atkArea.SetActive(true);
+        sfx.PlayOneShot(atkSFX);
     }
 
     public void UndoAtk()

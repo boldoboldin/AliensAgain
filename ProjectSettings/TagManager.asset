@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - O2
   - Ammo
+  - Objective
   layers:
   - Default
   - TransparentFX
