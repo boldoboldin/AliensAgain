@@ -1439,8 +1439,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98fe6075d5e03f34393faa9f6062313e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velX: 0.006
-  velY: 0.002
+  velX: 6
+  velY: 2
   inicialPos: {fileID: 0}
 --- !u!4 &1085544955 stripped
 Transform:
@@ -1820,7 +1820,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: v.0.1.6
+  m_text: v.0.1.7
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cbaa27fe46c1bf44c93be5a2fd366990, type: 2}
   m_sharedMaterial: {fileID: -3142918384735057509, guid: cbaa27fe46c1bf44c93be5a2fd366990, type: 2}
@@ -2662,14 +2662,78 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Design do jogo\r\nBoldoboldin - Henrique Baldo\r\n\r\nArtes conceituais\r\nJo\xE3o
-    Travassos (aliens)\r\nBoldoboldin - Henrique Baldo (armas e espa\xE7onave)\r\n\r\nArtes
-    2D\r\nDogmatic (skybox)*\r\nEren Katsukagi - Jo\xE3o Paulo (texturas)*\r\nBoldoboldin
-    (HUD)\r\n\r\nModelos 3D\r\nDJMaesen (alien)*\r\nFUZE Technologies (m\xE3o)*\r\nBoldoboldin
-    - Henrique Baldo (armas e armaduras)\r\n\r\nAnima\xE7\xF5es\r\nBoldoboldin -
-    Henrique Baldo (disparo e recarga)\r\n\r\nEfeitos Visuais\r\nUnity Technologies
-    (VFX)\r\n\r\nM\xFAsicas\r\n\r\n Efeitos sonoros\r\n\r\nMotor do jogo\r\nUnity
-    Technologies (Unity, 2021.3.18f1)"
+  m_text: 'Design do jogo
+
+    Boldoboldin - Henrique Baldo
+
+
+
+    Artes conceituais
+
+    Travassos
+
+    Boldoboldin
+
+
+
+    Artes
+    2D
+
+    Dogmatic
+
+    Eren Katsukagi - Joao Paulo
+
+    Boldoboldin
+
+
+
+    Modelos
+    3D
+
+    DJMaesen
+
+    FUZE Technologies
+
+    Boldoboldin
+
+
+
+    Animacoes
+
+    Boldoboldin
+
+
+
+    Efeitos
+    Visuais
+
+    Unity Technologies
+
+
+
+    Trilha sonora
+
+    VOID1
+
+
+
+    Efeitos
+    sonoros
+
+    Michael Baradari
+
+    SpringySpringo
+
+    qubodup
+
+    Kenney
+
+
+
+    Motor
+    do jogo
+
+    Unity Technologies (Unity, 2021.3.18f1)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cbaa27fe46c1bf44c93be5a2fd366990, type: 2}
   m_sharedMaterial: {fileID: -3142918384735057509, guid: cbaa27fe46c1bf44c93be5a2fd366990, type: 2}
@@ -2704,7 +2768,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2759,7 +2823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velX: 0
-  velY: 0.1
+  velY: 80
   inicialPos: {fileID: 1758984845}
 --- !u!1 &1784949547
 GameObject:

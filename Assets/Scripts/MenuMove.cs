@@ -9,11 +9,10 @@ public class MenuMove : MonoBehaviour
     [SerializeField] private GameObject inicialPos;
 
 
-
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(transform.position.x + velX, transform.position.y + velY, transform.position.z);
+        transform.position = new Vector3(transform.position.x + velX * Time.deltaTime, transform.position.y + velY * Time.deltaTime, transform.position.z);
 
         if (transform.position.y >= 1595.82f)
         {
